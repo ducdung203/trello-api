@@ -33,8 +33,21 @@ const getDetails = async (req, res, next) => {
     // throw new ApiError(StatusCodes.BAD_GATEWAY, 'test error')
   } catch (error) {next(error)}
 }
+const update = async (req, res, next) => {
+  try {
+    const boardId = req.params.id
+    //
+    const updateBoard = await boardService.update(boardId, req.body)
+
+    res.status(StatusCodes.OK).json(updateBoard)
+
+
+    // throw new ApiError(StatusCodes.BAD_GATEWAY, 'test error')
+  } catch (error) {next(error)}
+}
 
 export const boardController = {
   createNew,
-  getDetails
+  getDetails,
+  update
 }
