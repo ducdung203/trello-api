@@ -23,12 +23,33 @@ const createNew = async (req, res, next) => {
     // const errorMessage = new Error(error).message
     // const customError = new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, errorMessage)
     next(new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, new Error(error).message))
-    res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
-      errors: new Error(error).message
+  }
+}
+const update = async (req, res, next) => {
+  //lưu ý không dùng required() với trường hợp update vì có thể không truyền vào trường nào đó
+  const correctConditon = Joi.object({
+    title: Joi.string().min(3).max(50).trim().strict(),
+    description: Joi.string().min(3).max(256).trim().strict(),
+    type: Joi.string().valid(BOARD_TYPES.PUBLIC, BOARD_TYPES.PRIVATE)
+  })
+
+  try {
+    //chỉ định abortEarly: false để hiển thị nhiều lỗi validation
+    await correctConditon.validateAsync(req.body, {
+      abortEarly: false,
+      allowUnknown: true //cho phép các trường không nằm trong điều kiện validation
     })
+    next()
+
+  } catch (error) {
+    // console.log(error)
+    // const errorMessage = new Error(error).message
+    // const customError = new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, errorMessage)
+    next(new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, new Error(error).message))
   }
 }
 
 export const boardValidation = {
-  createNew
+  createNew,
+  update
 }
