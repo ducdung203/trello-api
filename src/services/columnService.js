@@ -3,9 +3,8 @@ import { boardModel } from '~/models/boardModel'
 
 const createNew = async (reqBody) => {
   try {
-  
     const newColumn = {
-      ...reqBody 
+      ...reqBody
     }
 
     const createColumn = await columnModel.createNew(newColumn)
