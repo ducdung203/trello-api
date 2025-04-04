@@ -12,6 +12,20 @@ const createNew = async (req, res, next) => {
   } catch (error) {next(error)}
 }
 
+const update = async (req, res, next) => {
+  try {
+    const columnId = req.params.id
+    //
+    const updateColumn = await columnService.update(columnId, req.body)
+
+    res.status(StatusCodes.OK).json(updateColumn)
+
+
+    // throw new ApiError(StatusCodes.BAD_GATEWAY, 'test error')
+  } catch (error) {next(error)}
+}
+
 export const columnController = {
-  createNew
+  createNew,
+  update
 }
