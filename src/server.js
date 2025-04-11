@@ -14,6 +14,7 @@ import { env } from '~/config/environment'
 import { CLOSE_DB, CONNECT_DB } from '~/config/mongodb'
 import { APIs_V1 } from '~/routes/v1'
 import { errorHandlingMiddleware } from './middlewares/errorHandlingMiddleware'
+import e from 'express'
 
 const START_SERVER = () => {
   const app = express()
@@ -27,9 +28,16 @@ const START_SERVER = () => {
   //Middleware xử lí lỗi tập trung
   app.use( errorHandlingMiddleware )
 
-  app.listen(env.APP_PORT, env.APP_HOST, () => {
-    console.log(`${env.AUTHOR}, I am running at http://${ env.APP_HOST }:${ env.APP_PORT }/`)
-  })
+  if (env.BUILD_MODE === 'production') {
+    app.listen(process.env.PORT, () => {
+      console.log(`Production: ${env.AUTHOR}, I am running at http://${ env.APP_HOST }:${ env.APP_PORT }/`)
+    })
+  } else {
+    //môi trường dev
+    app.listen(env.APP_PORT, env.APP_HOST, () => {
+      console.log(`Local DEV: ${env.AUTHOR}, I am running at http://${ env.APP_HOST }:${ env.APP_PORT }/`)
+    })
+  }
 
   exitHook( () => {
     console.log('')
