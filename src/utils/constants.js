@@ -7,7 +7,7 @@
 // Những domain được phép  truy cập tới tài nguyên của server
 export const WHITELIST_DOMAINS = [
   // 'http://localhost:5173', // khong cần locoalhost vì đã cho phép tất cả các domain trong môi trường dev
-  'http://trello-web-kohl-nine.vercel.app'
+  'https://trello-web-kohl-nine.vercel.app'
   // ...vv ví dụ sau này sẽ deploy lên domain chính thức ...vv
 ]
 
